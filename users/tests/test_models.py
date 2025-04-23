@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
@@ -13,6 +14,7 @@ class UserModelTest(TestCase):
             email='test@example.com',
             password='!changeMe'
         )
+        self.testfiles = []
 
     def test_user_can_be_created(self):
         '''
@@ -54,5 +56,13 @@ class UserModelTest(TestCase):
         with open(new_user.photo.path, 'rb') as f:
             self.assertEqual(f.read(), pic)
 
+        self.testfiles.append(new_user.photo.path)
+
         expected_path = 'media/users/id2/photos/test_image.gif'
         self.assertTrue(new_user.photo.path.endswith(expected_path))
+
+    def tearDown(self):
+        for f in self.testfiles:
+            if os.path.exists(f):
+                os.remove(f)
+
