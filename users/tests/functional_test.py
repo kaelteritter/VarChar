@@ -69,7 +69,7 @@ class LoginPageTest(TestCase):
         # Пользователь видит поля для заполнения
         try:
             inputs = browser.find_elements(By.TAG_NAME, 'input')
-            self.assertTrue(len(inputs) > 0)
+            self.assertTrue(len(inputs) > 0, 'Нет полей ввода данных в форме')
         except NoSuchElementException:
             self.fail('Нет полей ввода данных в форме')
 
