@@ -50,5 +50,9 @@ class UserModelTest(TestCase):
             content_type='image/gif'
         )
         new_user = User.objects.create_user(username='testuser2', photo=gif_file)
+
         with open(new_user.photo.path, 'rb') as f:
             self.assertEqual(f.read(), pic)
+
+        expected_path = 'media/users/id2/photos/test_image.gif'
+        self.assertTrue(new_user.photo.path.endswith(expected_path))

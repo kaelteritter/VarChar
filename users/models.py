@@ -3,7 +3,7 @@ from django.db import models
 
 
 def get_user_directory_path(instance, filename):
-    return f'users/{instance.id}/photos/{filename}'
+    return f'users/id{instance.id}/photos/{filename}'
 
 
 class User(AbstractUser):
@@ -13,6 +13,14 @@ class User(AbstractUser):
         blank=True,
         null=True
     )
+
+    def save(self, *args, **kwargs):
+        if not self.id and self.photo:
+            photo = self.photo
+            self.photo = None
+            super().save(*args, **kwargs)
+            self.photo = photo
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Пользователь'
