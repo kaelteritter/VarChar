@@ -27,7 +27,9 @@ INSTALLED_APPS = [
 INSTALLED_APPS += []
 
 # apps
-INSTALLED_APPS += []
+INSTALLED_APPS += [
+    'users.apps.UsersConfig'
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,7 +87,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTH_USER_MODEL = 'users.User'
 
 LANGUAGE_CODE = 'en-us'
 
