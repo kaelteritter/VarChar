@@ -73,6 +73,15 @@ class LoginPageTest(TestCase):
         except NoSuchElementException:
             self.fail('Нет полей ввода данных в форме')
 
+        # Он видит поля: username, пароль
+        try:
+            username_field = browser.find_element(By.XPATH, '//input[@name="username"]')
+            password_field = browser.find_element(By.XPATH, '//input[@name="password"]')
+            self.assertIsNotNone(username_field)
+            self.assertIsNotNone(password_field)
+        except NoSuchElementException:
+            self.fail('Нет полей username или password или не заданы их атрибуты в форме авторизации')
+
         # Пользователь вводит данные в форму и его переносит на главную страницу
         # На главной он видит всплывающее сообщение об успешной авторизации
 
