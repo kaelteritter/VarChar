@@ -12,3 +12,10 @@ class LoginURLTest(TestCase):
         '''
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
+
+    def test_login_page_uses_correct_template(self):
+        '''
+        Тест: страница авторизации использует шаблон login.html
+        '''
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'login.html')
