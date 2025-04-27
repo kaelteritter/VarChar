@@ -12,6 +12,6 @@ def login(request):
             auth.login(request, user)
             return redirect('/')
         else:
-            return render(request, 'users/login.html', {'error': 'Неверный логин или пароль'})
+            return render(request, 'users/login.html', {'error': 'Неверный логин или пароль!'})
 
     return render(request, 'users/login.html')

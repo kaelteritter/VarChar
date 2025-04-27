@@ -5,8 +5,12 @@
 {% endblock title %}
 
 {% block content %}
-<form action=".">
+<form action="." method="post">
+  {% csrf_token %}
   <ul class="login-form">
+    <li class="login-form-item">
+      {{ error }}
+    </li>
     <li class="login-form-item">
       <label for="username">Логин</label>
       <input type="text" id="username" name="username">
@@ -14,6 +18,9 @@
     <li class="login-form-item">
       <label for="password">Пароль</label>
       <input type="text" id="password" name="password">
+    </li>
+    <li class="login-form-item button button-submit">
+      <button type="submit">Войти</button>
     </li>
   </ul>
 </form>
