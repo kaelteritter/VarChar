@@ -15,8 +15,8 @@ class LoginViewTest(TestCase):
         Тест: Существующий пользователь может авторизоваться
         '''
         data = {
-                'username': self.user.username,
-                'password': self.user.password,
+                'username': 'testuser1',
+                'password': '1234',
             }
         response = self.client.post(path=self.url, data=data, follow=True)
         self.assertEqual(response.status_code, 200)
