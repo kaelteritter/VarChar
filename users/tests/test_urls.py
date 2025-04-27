@@ -18,4 +18,4 @@ class LoginURLTest(TestCase):
         Тест: страница авторизации использует шаблон login.html
         '''
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'login.html')
+        self.assertTemplateUsed(response, 'users/login.html')
