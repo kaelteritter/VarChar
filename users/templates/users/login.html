@@ -5,8 +5,16 @@
 {% endblock title %}
 
 {% block content %}
-    <form action=".">
-        <input type="text" name="username">
-        <input type="text" name="password">
-    </form>
+<form action=".">
+  <ul class="login-form">
+    <li class="login-form-item">
+      <label for="username">Логин</label>
+      <input type="text" id="username" name="username">
+    </li>
+    <li class="login-form-item">
+      <label for="password">Пароль</label>
+      <input type="text" id="password" name="password">
+    </li>
+  </ul>
+</form>
 {% endblock content %}
