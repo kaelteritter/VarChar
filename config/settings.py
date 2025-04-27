@@ -11,6 +11,7 @@ environ.Env.read_env(BASE_DIR / '.env')
 SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
 ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', default='').split()
+CSRF_TRUSTED_ORIGINS = env.str('CSRF_TRUSTED_ORIGINS').split()
 
 
 # basic
