@@ -5,11 +5,42 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class SignUpForm(forms.ModelForm):
-    password1 = forms.CharField(widget=forms.PasswordInput, label='Пароль')
-    password2 = forms.CharField(widget=forms.PasswordInput, label='Подтверждения пароля')
+    error_messages = {
+        'no_password_confirmation': 'Пожалуйста подтвердите пароль',
+        'password_mismatch': 'Пароли не совпадают'
+    }
+
+    password1 = forms.CharField(
+        widget=forms.PasswordInput, 
+        label='Пароль',
+        strip=False,
+        help_text='Введите пароль'
+        )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput, 
+        label='Подтверждения пароля',
+        strip=False,
+        help_text='Подтвердите пароль'
+        )
     class Meta:
         model = User
         fields = ['username', 'password1', 'password2']
         labels = {
             'username': 'Пользователь',
         }
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if not password2:
+            raise forms.ValidationError(self.error_messages['no_password_confirmation'])
+        
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError(self.error_messages['password_mismatch'])
+        
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data.get('password1'))
+        super().save(commit)
