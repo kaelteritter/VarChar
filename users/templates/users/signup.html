@@ -7,6 +7,14 @@
 {% block content %}
 <form action="." method="post">
   {% csrf_token %}
-  {{ form.as_p }}
+  <ul class="signup-form">
+    {% for field in form %}
+    <li class="signup-form-item">
+      {{ field.label }}
+      {{ field }}
+    </li>
+    {% endfor %}
+  </ul>
+  <button class="button button-submit"></button>
 </form>
 {% endblock content %}

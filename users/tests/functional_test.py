@@ -108,5 +108,16 @@ class SignUpPageTest(TestCase):
         except NoSuchElementException:
             self.fail('На странице не найдена форма регистрации')
 
+        # Пользователь видит поля для заполнения: username, два поля для пароля (с подтверждением)
+        try:
+            username_field = browser.find_element(By.XPATH, '//input[@name="username"]')
+            password1_field = browser.find_element(By.XPATH, '//input[@name="password1"]')
+            password2_field = browser.find_element(By.XPATH, '//input[@name="password2"]')
+            self.assertIsNotNone(username_field, 'Нет поля username')
+            self.assertIsNotNone(password1_field, 'Нет поля пароля')
+            self.assertIsNotNone(password2_field, 'Нет поля подвтерждения пароля')
+        except NoSuchElementException:
+            self.fail('Нет одного из полей: username или password1 или password2')
+
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
