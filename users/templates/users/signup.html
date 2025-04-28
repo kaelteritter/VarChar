@@ -5,4 +5,8 @@
 {% endblock title %}
 
 {% block content %}
+<form action="." method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+</form>
 {% endblock content %}

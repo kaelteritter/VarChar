@@ -101,5 +101,12 @@ class SignUpPageTest(TestCase):
         browser.get(self.url)
         self.assertIn('Регистрация', browser.title)
 
+        # Пользователь находит форму с регистрацией
+        try:
+            form = browser.find_element(By.TAG_NAME, 'form')
+            self.assertIsNotNone(form, 'На странице не найдена форма регистрации')
+        except NoSuchElementException:
+            self.fail('На странице не найдена форма регистрации')
+
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
