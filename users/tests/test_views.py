@@ -21,3 +21,21 @@ class LoginViewTest(TestCase):
         response = self.client.post(path=self.url, data=data, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.wsgi_request.user.is_authenticated)
+
+
+class SignUpViewTest(TestCase):
+    def setUp(self):
+        self.url = '/signup/'
+        self.client = Client()
+
+    def test_client_can_sign_up(self):
+        '''
+        Тест: Пользователь может зарегистрироваться
+        '''
+        data = {
+            'username': 'testuser2',
+            'password': '!changeMe',
+        }
+        response = self.client.post(path=self.url, data=data, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(User.objects.filter(username='testuser2').exists())
