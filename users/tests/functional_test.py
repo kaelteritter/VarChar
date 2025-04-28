@@ -86,5 +86,20 @@ class LoginPageTest(TestCase):
         # На главной он видит всплывающее сообщение об успешной авторизации
 
 
+class SignUpPageTest(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.url = address + '/signup/'
+        super().setUpClass()
+
+    def test_explore_signup_page(self):
+        '''
+        Тест: регистрация пользователя
+        '''
+        # Пользователь заходит на /signup/ и видит страницу регистрации
+        # Вверху заголовок "Регистрация"
+        browser.get(self.url)
+        self.assertIn('Регистрация', browser.title)
+
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
