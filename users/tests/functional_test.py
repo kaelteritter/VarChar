@@ -10,6 +10,9 @@ from django.core.management import execute_from_command_line
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
+from selenium.webdriver import Keys
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 if not settings.configured:
@@ -82,7 +85,21 @@ class LoginPageTest(TestCase):
         except NoSuchElementException:
             self.fail('Нет полей username или password или не заданы их атрибуты в форме авторизации')
 
-        # Пользователь вводит данные в форму и его переносит на главную страницу
+        # Пользователь вводит валидные данные в форму и его переносит на главную страницу
+        # (должен быть создан пользователь, так как используем unittest вместо django
+        # и не можем создать тест-юзера)
+        data = {'username': 'root', 'password': '1234'}
+        try:
+            username_field.send_keys(data['username'])
+            password_field.send_keys(data['password'])
+            password_field.send_keys(Keys.RETURN)
+            wait = WebDriverWait(browser, 5)
+            wait.until(expected_conditions.url_to_be(address + '/'))
+            self.assertEqual(browser.current_url, address + '/', 
+                             'После валидации пользователь не переносится на главную страницу')
+        except NoSuchElementException:
+            self.fail('Нет одного из необходимых полей: username, password')
+            
         # На главной он видит всплывающее сообщение об успешной авторизации
 
 
