@@ -8,9 +8,11 @@
 <form action="." method="post">
   {% csrf_token %}
   <ul class="login-form">
-    <li class="login-form-item">
+    {% if error %}
+    <li class="login-form-item login-error-message">
       {{ error }}
     </li>
+    {% endif %}
     <li class="login-form-item">
       <label for="username">Логин</label>
       <input type="text" id="username" name="username">

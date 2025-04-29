@@ -8,7 +8,7 @@ import django
 from django.conf import settings
 from django.core.management import execute_from_command_line
 from selenium import webdriver
-from selenium.common import NoSuchElementException
+from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver import Keys
 from selenium.webdriver.support import expected_conditions
@@ -85,9 +85,38 @@ class LoginPageTest(TestCase):
         except NoSuchElementException:
             self.fail('Нет полей username или password или не заданы их атрибуты в форме авторизации')
 
-        # Пользователь вводит валидные данные в форму и его переносит на главную страницу
+        # Случай 1: Пользователь вводит невалидные данные в форму и на этой же странице
+        # видит сверху от формы всплывающее сообщение о том, что данные некорректны
+        data = {'username': 'unexistinguser', 'password': '1234'}
+        username_field = browser.find_element(By.XPATH, '//input[@name="username"]')
+        password_field = browser.find_element(By.XPATH, '//input[@name="password"]')
+        username_field.send_keys(data['username'])
+        password_field.send_keys(data['password'])
+        password_field.send_keys(Keys.RETURN)
+        try:
+            wait = WebDriverWait(browser, 10)
+            error_message_got = wait.until(
+                expected_conditions.presence_of_element_located(
+                (By.CLASS_NAME, 'login-error-message')
+                )
+                )
+        except TimeoutException:
+            try:
+                element = browser.find_element(By.CLASS_NAME, 'login-error-message')
+            except NoSuchElementException:
+                self.fail('Сообщение об ошибке не появилось после ввода невалидных данных в авторизации')
+
+        error_message_expected = 'Неверный логин или пароль!'
+        self.assertEqual(error_message_got.text, 
+                         error_message_expected, 
+                         f'Неверное сообщение об ошибке валидации: {error_message_got.text}'
+                         f'Нужно: {error_message_expected}')
+
+        # Случай 2: Пользователь вводит валидные данные в форму и его переносит на главную страницу
         # (должен быть создан пользователь, так как используем unittest вместо django
         # и не можем создать тест-юзера)
+        username_field = browser.find_element(By.XPATH, '//input[@name="username"]')
+        password_field = browser.find_element(By.XPATH, '//input[@name="password"]')
         data = {'username': 'root', 'password': '1234'}
         try:
             username_field.send_keys(data['username'])
@@ -99,8 +128,9 @@ class LoginPageTest(TestCase):
                              'После валидации пользователь не переносится на главную страницу')
         except NoSuchElementException:
             self.fail('Нет одного из необходимых полей: username, password')
-            
+
         # На главной он видит всплывающее сообщение об успешной авторизации
+
 
 
 class SignUpPageTest(TestCase):
@@ -138,6 +168,31 @@ class SignUpPageTest(TestCase):
 
 
         # Пользователь вводит данные в форму и его переносит на главную страницу
+        # Случай 1: Пользователь вводит невалидные данные
+        wait = WebDriverWait(browser, 10)
+        username_field = wait.until(expected_conditions.element_to_be_clickable((By.NAME, "username")))
+        password1_field = wait.until(expected_conditions.element_to_be_clickable((By.NAME, "password1")))
+        password2_field = wait.until(expected_conditions.element_to_be_clickable((By.NAME, "password2")))
+        data = {
+            'username': 'unexistinguser',
+            'password1': '1234',
+            'password2': '1235'
+        }
+        try:
+            username_field.send_keys(data['username'])
+            password1_field.send_keys(data['password1'])
+            password2_field.send_keys(data['password2'])
+            password2_field.send_keys(Keys.RETURN)
+            wait = WebDriverWait(browser, 10)
+            error_message_got = wait.until(expected_conditions.presence_of_element_located(
+                (By.CLASS_NAME, "errorlist")
+            ))
+        except TimeoutException:
+            self.fail('Сообщение об ошибке не появилось')
+
+        error_message_expected = 'Пароли не совпадают'
+        self.assertIn(error_message_expected, error_message_got.text, 'Неверное сообщение об ошибке')
+
         # На главной он видит всплывающее сообщение об успешной авторизации
 
 if __name__ == '__main__':

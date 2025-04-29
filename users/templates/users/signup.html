@@ -7,13 +7,23 @@
 {% block content %}
 <form action="." method="post">
   {% csrf_token %}
+  {{ form.non_field_errors }}
   <ul class="signup-form">
-    {% for field in form %}
-    <li class="signup-form-item">
-      {{ field.label }}
-      {{ field }}
+    <li class="signup-form-item username">
+      {{ form.username.label }}
+      {{ form.username }}
+      {{ form.username.errors }}
     </li>
-    {% endfor %}
+    <li class="signup-form-item password1">
+      {{ form.password1.label }}
+      {{ form.password1 }}
+      {{ form.password1.errors }}
+    </li>
+    <li class="signup-form-item password2">
+      {{ form.password2.label }}
+      {{ form.password2 }}
+      {{ form.password2.errors }}
+    </li>
   </ul>
   <button class="button button-submit">Зарегистрироваться</button>
 </form>
