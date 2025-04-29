@@ -19,3 +19,15 @@ class LoginURLTest(TestCase):
         '''
         response = self.client.get(self.url)
         self.assertTemplateUsed(response, 'users/login.html')
+
+
+class SignUpURLTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.url = '/signup/'
+    def test_signup_page_uses_correct_template(self):
+        '''
+        Тест: страница авторизации использует шаблон login.html
+        '''
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'users/signup.html')

@@ -119,5 +119,9 @@ class SignUpPageTest(TestCase):
         except NoSuchElementException:
             self.fail('Нет одного из полей: username или password1 или password2')
 
+
+        # Пользователь вводит данные в форму и его переносит на главную страницу
+        # На главной он видит всплывающее сообщение об успешной авторизации
+
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
