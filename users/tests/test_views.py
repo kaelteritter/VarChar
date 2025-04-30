@@ -19,7 +19,7 @@ class LoginViewTest(TestCase):
                 'password': '1234',
             }
         response = self.client.post(path=self.url, data=data, follow=True)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(response.wsgi_request.user.is_authenticated)
 
 
@@ -38,5 +38,5 @@ class SignUpViewTest(TestCase):
             'password2': '!changeMe',
         }
         response = self.client.post(path=self.url, data=data, follow=True)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(User.objects.filter(username='testuser2').exists())
