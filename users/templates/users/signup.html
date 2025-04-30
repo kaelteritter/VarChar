@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load form_tags %}
 
 {% block title %}
 <title>Регистрация</title>
@@ -6,25 +7,20 @@
 
 {% block content %}
 <form action="." method="post">
-  {% csrf_token %}
-  {{ form.non_field_errors }}
-  <ul class="signup-form">
-    <li class="signup-form-item username">
-      {{ form.username.label }}
-      {{ form.username }}
-      {{ form.username.errors }}
-    </li>
-    <li class="signup-form-item password1">
-      {{ form.password1.label }}
-      {{ form.password1 }}
-      {{ form.password1.errors }}
-    </li>
-    <li class="signup-form-item password2">
-      {{ form.password2.label }}
-      {{ form.password2 }}
-      {{ form.password2.errors }}
-    </li>
-  </ul>
+  <fieldset class="signup-form-fieldset">
+    <legend>Регистрация</legend>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <ul class="signup-form-list">
+      {% for field in form %}
+      <li class="signup-form-item {{ field.name }}">
+        {{ field.label }}
+        {{ field }}
+        {{ field.errors }}
+      </li>
+      {% endfor %}
+    </ul>
+  </fieldset>
   <button class="button button-submit">Зарегистрироваться</button>
 </form>
 {% endblock content %}
