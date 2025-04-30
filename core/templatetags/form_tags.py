@@ -10,3 +10,11 @@ def add_class(field, css_class):
         'class': css_class
         }
     )
+
+@register.filter
+def add_placeholder(field, placeholder):
+    return field.as_widget(
+        attrs={
+        'placeholder': placeholder
+        }
+    )

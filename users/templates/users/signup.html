@@ -14,8 +14,8 @@
     <ul class="signup-form-list">
       {% for field in form %}
       <li class="signup-form-item {{ field.name }}">
-        {{ field.label }}
-        {{ field }}
+        {{ field.label_tag }}
+        {{ field|add_placeholder:field.help_text }}
         {{ field.errors }}
       </li>
       {% endfor %}
