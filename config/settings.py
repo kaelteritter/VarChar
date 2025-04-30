@@ -29,7 +29,8 @@ INSTALLED_APPS += []
 
 # apps
 INSTALLED_APPS += [
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'core.apps.CoreConfig'
 ]
 
 MIDDLEWARE = [
