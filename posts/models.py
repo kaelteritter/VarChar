@@ -4,6 +4,9 @@ from django.db import models
 
 User = get_user_model()
 
+def get_post_pic_directory_path(instance, filename):
+    return f'users/id{instance.author.id}/posts/{instance.id}/{filename}'
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     text = models.TextField(
@@ -18,6 +21,12 @@ class Post(models.Model):
         related_name='posts',
         verbose_name='Автор'
         )
+    pic = models.ImageField(
+        verbose_name='Картинка',
+        upload_to=get_post_pic_directory_path,
+        blank=True,
+        null=True
+        )
 
     class Meta:
         verbose_name = 'Пост'
@@ -25,3 +34,13 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.text}'
+    
+    def save(self, *args, **kwargs):
+        if not self.id and self.pic:
+            pic = self.pic
+            self.pic = None
+            super().save(*args, **kwargs)
+            self.pic = pic
+            super().save(update_fields=['pic'])
+        else:
+            super().save(*args, **kwargs)
