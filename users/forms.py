@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
 
 
 User = get_user_model()
@@ -54,3 +54,33 @@ class SignUpForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+
+class LoginForm(forms.Form):
+    error_messages = {
+        'invalid_credentials': 'Неверный логин или пароль'
+    }
+
+    username = forms.CharField(
+        label='Имя',
+        widget=forms.TextInput,
+        help_text='Введите ваше имя'
+    )
+    password = forms.CharField(
+        label='Пароль',
+        widget=forms.PasswordInput,
+        help_text='Введите ваш пароль'
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if user is None:
+                raise forms.ValidationError(self.error_messages['invalid_credentials'])
+            cleaned_data['user'] = user
+            
+        return cleaned_data

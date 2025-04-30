@@ -97,16 +97,16 @@ class LoginPageTest(TestCase):
             wait = WebDriverWait(browser, 10)
             error_message_got = wait.until(
                 expected_conditions.presence_of_element_located(
-                (By.CLASS_NAME, 'login-error-message')
+                (By.CLASS_NAME, 'alert')
                 )
                 )
         except TimeoutException:
             try:
-                element = browser.find_element(By.CLASS_NAME, 'login-error-message')
+                element = browser.find_element(By.CLASS_NAME, 'alert')
             except NoSuchElementException:
                 self.fail('Сообщение об ошибке не появилось после ввода невалидных данных в авторизации')
 
-        error_message_expected = 'Неверный логин или пароль!'
+        error_message_expected = 'Неверный логин или пароль'
         self.assertEqual(error_message_got.text, 
                          error_message_expected, 
                          f'Неверное сообщение об ошибке валидации: {error_message_got.text}'
@@ -117,6 +117,8 @@ class LoginPageTest(TestCase):
         # и не можем создать тест-юзера)
         username_field = browser.find_element(By.XPATH, '//input[@name="username"]')
         password_field = browser.find_element(By.XPATH, '//input[@name="password"]')
+        username_field.clear()
+        password_field.clear()
         data = {'username': 'root', 'password': '1234'}
         try:
             username_field.send_keys(data['username'])

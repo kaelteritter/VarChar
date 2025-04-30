@@ -1,22 +1,21 @@
 from django.contrib import auth
 from django.shortcuts import redirect, render
 
-from .forms import SignUpForm
+from .forms import LoginForm, SignUpForm
 
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = auth.authenticate(request, username=username, password=password)
-
-        if user is not None:
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = form.cleaned_data.get('user')
             auth.login(request, user)
             return redirect('/')
         else:
-            return render(request, 'users/login.html', {'error': 'Неверный логин или пароль!'})
-
-    return render(request, 'users/login.html')
+            return render(request, 'users/login.html', {'form': form})
+    else:
+        form = LoginForm()
+    return render(request, 'users/login.html', {'form': form})
 
 
 def signup(request):
