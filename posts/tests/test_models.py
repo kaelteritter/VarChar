@@ -1,12 +1,16 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from posts.models import Post
 
+User = get_user_model()
 
 class PostModelTest(TestCase):
     def setUp(self):
+        self.user = User.objects.create_user(username='TestUser')
         self.post = Post.objects.create(
-            text='Hi, this is the test post'
+            text='Hi, this is the test post',
+            author=self.user
         )
 
     def test_string_representation(self):
@@ -23,3 +27,7 @@ class PostModelTest(TestCase):
         self.assertTrue(hasattr(self.post._meta, 'verbose_name_plural'))
         self.assertEqual(self.post._meta.verbose_name, 'Пост')
         self.assertEqual(self.post._meta.verbose_name_plural, 'Посты')
+
+    def test_post_has_author(self):
+        self.assertTrue(hasattr(self.post, 'author'))
+        self.assertTrue(self.post.author.username, 'TestAuthor')
