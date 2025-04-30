@@ -30,7 +30,8 @@ INSTALLED_APPS += []
 # apps
 INSTALLED_APPS += [
     'users.apps.UsersConfig',
-    'core.apps.CoreConfig'
+    'core.apps.CoreConfig',
+    'posts.apps.PostsConfig',
 ]
 
 MIDDLEWARE = [
