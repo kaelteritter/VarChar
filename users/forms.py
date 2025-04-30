@@ -7,26 +7,33 @@ User = get_user_model()
 class SignUpForm(forms.ModelForm):
     error_messages = {
         'no_password_confirmation': 'Пожалуйста подтвердите пароль',
-        'password_mismatch': 'Пароли не совпадают'
+        'password_mismatch': 'Пароли не совпадают',
     }
 
     password1 = forms.CharField(
         widget=forms.PasswordInput, 
         label='Пароль',
         strip=False,
-        help_text='Введите пароль'
+        help_text='Пароль должен состоять из латинских символов, цифр или знаков @/./+/-/_'
         )
     password2 = forms.CharField(
         widget=forms.PasswordInput, 
-        label='Подтверждения пароля',
+        label='Повторите пароль',
         strip=False,
-        help_text='Подтвердите пароль'
         )
     class Meta:
         model = User
         fields = ['username', 'password1', 'password2']
         labels = {
-            'username': 'Пользователь',
+            'username': 'Имя',
+        }
+        help_texts = {
+            'username': 'Не более 150 символов. Допустима латиница , цифры или символы @/./+/-/_'
+        }
+        error_messages = {
+            'username': {
+                'unique': 'Пользователь с таким именем уже существует'
+            }
         }
 
     def clean_password2(self):
@@ -39,8 +46,11 @@ class SignUpForm(forms.ModelForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError(self.error_messages['password_mismatch'])
         
+        return password2
 
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data.get('password1'))
-        super().save(commit)
+        if commit:
+            user.save()
+        return user

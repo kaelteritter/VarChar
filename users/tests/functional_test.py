@@ -185,7 +185,7 @@ class SignUpPageTest(TestCase):
             password2_field.send_keys(Keys.RETURN)
             wait = WebDriverWait(browser, 10)
             error_message_got = wait.until(expected_conditions.presence_of_element_located(
-                (By.CLASS_NAME, "errorlist")
+                (By.CLASS_NAME, "invalid-feedback")
             ))
         except TimeoutException:
             self.fail('Сообщение об ошибке не появилось')
