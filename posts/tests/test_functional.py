@@ -1,5 +1,7 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
+from selenium.common import NoSuchElementException
+from selenium.webdriver.common.by import By
 
 
 class HomePageTest(StaticLiveServerTestCase):
@@ -15,8 +17,15 @@ class HomePageTest(StaticLiveServerTestCase):
         super().tearDownClass()
         
     def test_home_page_content(self):
+        # Пользователь видит в заголовке странице название/Главная
         self.browser.get(self.live_server_url)
         self.assertIn('Главная', self.browser.title)
+
+        # Вверху он видит блок меню
+        try:
+            menu = self.browser.find_element(By.XPATH, '//nav[@class="navigation"]')
+        except NoSuchElementException:
+            self.fail('Не найдено меню с корректными селекторами на главной странице')
 
 
 if __name__ == '__main__':
