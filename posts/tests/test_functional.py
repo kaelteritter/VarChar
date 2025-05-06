@@ -1,14 +1,9 @@
-import unittest
-import os
-import django
 from django.contrib.auth import get_user_model
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-django.setup()
 
 from posts.models import Post
 
@@ -58,7 +53,3 @@ class HomePageTest(StaticLiveServerTestCase):
         # В главном блоке он видит несколько опубликованных постов
         posts = self.browser.find_elements(By.CLASS_NAME, 'post-item')
         self.assertTrue(posts, 'Не найдено постов на главной странице')
-
-
-if __name__ == '__main__':
-    unittest.main()

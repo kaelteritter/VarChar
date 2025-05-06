@@ -6,22 +6,36 @@
 
 {% block content %}
   {% for post in posts %}
-  <div class="card mb-3 post-item" style="max-width: 540px;">
-    <div class="row g-0">
-      {% if post.pic %}
-        <div class="col-md-4">
-          <img src="{{ post.pic.path }}" class="img-fluid rounded-start" alt="...">
+  {% comment %} Карточка с постом {% endcomment %}
+    <div class="mt-4 d-flex justify-content-center">
+      <div class="d-flex card card-small mb-3 post-item" style="width: 360px;">
+
+        <!-- Автор поста -->
+        <div class="d-flex align-items-center mx-3 mt-3 mb-0">
+          <img 
+          src="{{ post.author.photo.url }}" 
+          alt="Аватар {{ post.author }}" 
+          class="rounded-circle me-1" 
+          style="width: 50px; height: 50px; object-fit: cover;"
+          >
+          <p class="card-text mb-0"><strong class="text-muted">@{{ post.author }}</strong></p>
         </div>
-      {% endif %}
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{ post.title }}</h5>
-          <p class="card-text">{{ post.text }}</p>
-          <p class="card-text"><small class="text-muted">Обновлено: {{ post.updated_at }}</small></p>
-          <p class="card-text"><small class="text-muted">Автор: {{ post.author }}</small></p>
-        </div>
+
+          <!-- Картинка поста -->
+          {% if post.pic %}
+            <img src="{{ post.pic.url }}" class="w-100 my-3" style="object-fit: cover; height: 100%;" alt="Картинка к посту {{ post.title }}">
+          {% endif %}
+
+          <!-- Тело поста -->
+          <div class="d-flex">
+            <div class="card-body">
+              <h5 class="card-title">{{ post.title }}</h5>
+              <p class="card-text">{{ post.text }}</p>
+              <p class="card-text"><small class="text-muted">Обновлено: {{ post.updated_at|date:"j E o H:i:s" }}</small></p>
+            </div>
+          </div>
       </div>
     </div>
-  </div>
+
   {% endfor %}
 {% endblock content %}
