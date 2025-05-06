@@ -11,7 +11,8 @@ class User(AbstractUser):
         verbose_name='Аватар',
         upload_to=get_user_directory_path,
         blank=True,
-        null=True
+        null=True,
+        default='users/default/avatars/A.png'
     )
 
     def save(self, *args, **kwargs):
