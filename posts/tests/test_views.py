@@ -14,7 +14,7 @@ class HomeViewTest(TestCase):
 
     def test_bunch_of_posts_can_be_seen_at_index_page(self):
         '''
-        Тест: на главной странице отображаются посты пользователей
+        Тест: на главной странице в контекст передаются посты пользователей
         '''
         number_of_posts = 5
         for i in range(number_of_posts):
