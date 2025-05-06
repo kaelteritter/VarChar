@@ -1,7 +1,11 @@
-<nav class="navigation">
-    <ul class="navigation-list">
-        <li class="navigation-item">
-            <a href="{% url "posts:home" %}">Главная</a>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url "posts:home" %}">Главная</a>
         </li>
-    </ul>
+      </ul>
+    </div>
+  </div>
 </nav>

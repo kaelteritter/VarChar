@@ -23,7 +23,7 @@ class HomePageTest(StaticLiveServerTestCase):
 
         # Вверху он видит блок меню
         try:
-            menu = self.browser.find_element(By.XPATH, '//nav[@class="navigation"]')
+            self.browser.find_element(By.XPATH, '//nav[contains(@class, "navbar")]')
         except NoSuchElementException:
             self.fail('Не найдено меню с корректными селекторами на главной странице')
 
