@@ -1,5 +1,6 @@
 from django.contrib import auth
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from .forms import LoginForm, SignUpForm
 
@@ -29,3 +30,8 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'users/signup.html', {'form': form})
+
+
+def logout(request):
+    auth.logout(request)
+    return render(request, 'index.html')

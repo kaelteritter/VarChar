@@ -9,6 +9,8 @@ from posts.models import Post
 
 User = get_user_model()
 
+
+
 class HomePageTest(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
@@ -16,13 +18,13 @@ class HomePageTest(StaticLiveServerTestCase):
         cls.browser = webdriver.Firefox()
         cls.browser.implicitly_wait(10)
 
-        cls.user = User.objects.create(username='testuser')
-        num_posts = 5
-        for i in range(num_posts):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser')
+        for i in range(5):
             Post.objects.create(
-                author=cls.user,
+                author=self.user,
                 title=f'Мой тестовый пост #{i}',
-                text=f'Тестовый текст для поста #{i}'
+                text=f'Текст поста #{i}'
             )
 
     @classmethod
@@ -53,3 +55,6 @@ class HomePageTest(StaticLiveServerTestCase):
         # В главном блоке он видит несколько опубликованных постов
         posts = self.browser.find_elements(By.CLASS_NAME, 'post-item')
         self.assertTrue(posts, 'Не найдено постов на главной странице')
+
+    def test_user_login_and_logout(self):
+        ...

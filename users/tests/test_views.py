@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
+from django.urls import reverse
 
 
 User = get_user_model()
@@ -40,3 +41,19 @@ class SignUpViewTest(TestCase):
         response = self.client.post(path=self.url, data=data, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(User.objects.filter(username='testuser2').exists())
+
+
+class LogoutViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='testuser1')
+        self.client.force_login(self.user)
+
+    def test_user_logout(self):
+        '''
+        Тест: юзер может разлогиниться
+        '''
+        self.assertTrue(self.user.is_authenticated)
+
+        response = self.client.get(reverse('users:logout'))
+        self.assertTrue(response.status_code, 302)
