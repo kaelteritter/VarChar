@@ -60,6 +60,9 @@ class HomePageTest(BaseSeleniumTest):
 
 
 class LoginAndLogoutTest(BaseSeleniumTest):
+    def setUp(self):
+        self.user = User.objects.create_user(username='useruser', password='!changeMe')
+
     def test_user_click_login(self):
         # Неавторизованный пользователь видит кнопку "Войти", при клике его перебрасывает
         # на страницу авторизации
@@ -67,5 +70,18 @@ class LoginAndLogoutTest(BaseSeleniumTest):
         login = self.browser.find_element(By.LINK_TEXT, 'Войти')
         login.click()
         self.assertEqual(self.browser.current_url, self.live_server_url + reverse('users:login'))
+
+    def test_login_and_logout(self):
+        # Пользователь входит по валидным данным и перенаправляется на главную страницу
+        self.browser.get(self.live_server_url + reverse('users:login'))
+        data = {'username': 'useruser', 'password': '!changeMe'}
+        username_field = self.browser.find_element(By.XPATH, '//input[@name="username"]')
+        password_field = self.browser.find_element(By.XPATH, '//input[@name="password"]')
+        submit_button = self.browser.find_element(By.XPATH, '//button[text()="Войти"]')
+        username_field.send_keys(data['username'])
+        password_field.send_keys(data['password'])
+        submit_button.click()
+        
+        self.assertEqual(self.browser.current_url, self.live_server_url + '/')
         
 
