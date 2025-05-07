@@ -83,5 +83,13 @@ class LoginAndLogoutTest(BaseSeleniumTest):
         submit_button.click()
         
         self.assertEqual(self.browser.current_url, self.live_server_url + '/')
-        
+
+        # Теперь в навигации пользователь видит кнопку "Выйти" вместо "Войти"
+        try:
+            logout_link = self.browser.find_element(By.LINK_TEXT, 'Выйти')
+            logout_link.click()
+            # И снова "Войти" при логауте
+            self.browser.find_element(By.LINK_TEXT, 'Войти')
+        except NoSuchElementException:
+            self.fail('Логин-логаут работают некорректно')
 
