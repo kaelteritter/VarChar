@@ -58,6 +58,12 @@ class HomePageTest(BaseSeleniumTest):
         posts = self.browser.find_elements(By.CLASS_NAME, 'post-item')
         self.assertTrue(posts, 'Не найдено постов на главной странице')
 
+        try:
+            self.browser.find_element(By.XPATH, '//section[contains(@class, "comments")]')
+        except NoSuchElementException:
+            self.fail('Нет секции комментариев под постами')
+
+
 
 class LoginAndLogoutTest(BaseSeleniumTest):
     def setUp(self):

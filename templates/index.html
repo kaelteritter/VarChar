@@ -34,6 +34,40 @@
               <p class="card-text"><small class="text-muted">Обновлено: {{ post.updated_at|date:"j E o H:i:s" }}</small></p>
             </div>
           </div>
+
+          <!-- Комментарии -->
+           <section class="comments">
+            <div class="d-flex align-items-center justify-content-center">
+              <h6>Комментарии</h6>
+            </div>
+
+            <!-- Форма добавления комментария -->
+            <div class="d-flex mx-3 mt-3 my-3 justify-content-center align-items-center">
+              <img 
+              src="{{ user.photo.url }}"
+              class="rounded-circle me-1" 
+              style="width: 50px; height: 50px; object-fit: cover;"
+              >
+              <input type="text" class="form-control" name="comment" placeholder="Напишите комментарий...">  
+            </div>
+            
+            <!-- Список комментариев -->
+            {% for comment in post.comments.all %}
+            <div class="mt-2">
+              <div class="d-flex flex-row p-3">
+                <img src="{{ comment.author.photo.url }}" width="40" height="40" class="rounded-circle mr-3 me-3">
+                <div class="w-100">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-row align-items-center">
+                      <span class="mr-2">{{ comment.author }}</span>
+                    </div>
+                    <small>{{ comment.updated_at }}</small>
+                <!-- Текст комментария -->
+                <p class="text-justify comment-text mb-0">{{ comment.text }}</p>
+              </div>  
+            </div>  
+            {% endfor %}
+           </section>
       </div>
     </div>
 
