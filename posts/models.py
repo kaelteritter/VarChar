@@ -44,3 +44,24 @@ class Post(models.Model):
             super().save(update_fields=['pic'])
         else:
             super().save(*args, **kwargs)
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(
+        to=User, 
+        on_delete=models.CASCADE, 
+        related_name='comments',
+        verbose_name='Автор'
+        )
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    to_post = models.ForeignKey(
+        to=Post,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Пост'
+    )
+
+    def __str__(self):
+        return f'A:{self.author.id} P:{self.to_post.id} {self.text}'

@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from posts.models import Post
+from posts.models import Comment, Post
 
 User = get_user_model()
 
@@ -68,3 +68,24 @@ class PostModelTest(TestCase):
         for f in self.testfiles:
             if os.path.exists(f):
                 os.remove(f)
+
+
+class CommentModelTest(TestCase):
+    def setUp(self):
+        self.user1 = User.objects.create_user(username='testuser1')
+        self.user2 = User.objects.create_user(username='testuser2')
+        self.post = Post.objects.create(
+            text='This is a test post...',
+            author=self.user1
+        )
+
+    def test_comment_string_representation(self):
+        '''
+        У комментария должно быть строковое представление
+        '''
+        comment = Comment.objects.create(
+            text='This is the reply to the post', 
+            author=self.user2,
+            to_post=self.post
+        )
+        self.assertEqual(str(comment), 'A:2 P:1 This is the reply to the post')
