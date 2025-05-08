@@ -61,7 +61,6 @@ class PostModelTest(TestCase):
         self.testfiles.append(new_post.pic.path)
 
         expected_path = 'media/users/id1/posts/2/test_image.gif'
-        print(new_post.pic.path)
         self.assertTrue(new_post.pic.path.endswith(expected_path))
 
     def tearDown(self):
@@ -78,14 +77,21 @@ class CommentModelTest(TestCase):
             text='This is a test post...',
             author=self.user1
         )
+        self.comment = Comment.objects.create(
+            text='This is the reply to the post', 
+            author=self.user2,
+            to_post=self.post
+        )
 
     def test_comment_string_representation(self):
         '''
         У комментария должно быть строковое представление
         '''
-        comment = Comment.objects.create(
-            text='This is the reply to the post', 
-            author=self.user2,
-            to_post=self.post
-        )
-        self.assertEqual(str(comment), 'A:2 P:1 This is the reply to the post')
+        self.assertEqual(str(self.comment), 'A:2 P:1 This is the reply to the post')
+
+    def test_comment_has_verbose_name(self):
+        '''
+        У комментария должно человекочитаемое имя
+        '''
+        self.assertEqual(self.comment._meta.verbose_name, 'Комментарий')
+        self.assertEqual(self.comment._meta.verbose_name_plural, 'Комментарии')
