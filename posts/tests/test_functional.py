@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth import get_user_model
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
@@ -63,6 +64,16 @@ class HomePageTest(BaseSeleniumTest):
         except NoSuchElementException:
             self.fail('Нет секции комментариев под постами')
 
+        # Нажав на заголовок или дату обновления/создания, он переходит на страницу с постом
+        try:
+            self.browser.find_element(By.CLASS_NAME, 'card-title').click()
+            self.assertRegex(
+                self.browser.current_url, r'^' + re.escape(self.live_server_url) + r'/posts/\d+/'
+                         )
+        except NoSuchElementException:
+            self.fail('Нет ссылки на страницу с постом после клика на заголовок поста')
+
+        
 
 
 class LoginAndLogoutTest(BaseSeleniumTest):
@@ -98,4 +109,5 @@ class LoginAndLogoutTest(BaseSeleniumTest):
             self.browser.find_element(By.LINK_TEXT, 'Войти')
         except NoSuchElementException:
             self.fail('Логин-логаут работают некорректно')
+
 

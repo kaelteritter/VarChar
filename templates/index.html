@@ -29,9 +29,15 @@
           <!-- Тело поста -->
           <div class="d-flex">
             <div class="card-body">
-              <h5 class="card-title">{{ post.title }}</h5>
+              <h5 class="card-title">
+                <a href="{% url "posts:post_detail" post.id %}">{{ post.title }}</a>
+              </h5>
               <p class="card-text">{{ post.text }}</p>
-              <p class="card-text"><small class="text-muted">Обновлено: {{ post.updated_at|date:"j E o H:i:s" }}</small></p>
+              <p class="card-text">
+                <small class="text-muted">
+                  <a href="{% url "posts:post_detail" post.id %}">Обновлено: {{ post.updated_at|date:"j E o H:i:s" }}</a>
+                </small>
+              </p>
             </div>
           </div>
 
