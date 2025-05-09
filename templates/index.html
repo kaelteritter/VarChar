@@ -53,17 +53,20 @@
             
             <!-- Список комментариев -->
             {% for comment in post.comments.all %}
-            <div class="mt-2">
-              <div class="d-flex flex-row p-3">
-                <img src="{{ comment.author.photo.url }}" width="40" height="40" class="rounded-circle mr-3 me-3">
-                <div class="w-100">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex flex-row align-items-center">
-                      <span class="mr-2">{{ comment.author }}</span>
-                    </div>
-                    <small>{{ comment.updated_at }}</small>
+            <div class="my-3 card m-3">
+              <div class="d-flex flex-column p-3">
+                <!-- Автор комментария -->
+                <div class="d-flex justify-content-between align-items-center w-100">
+                  <div class="d-flex align-items-center">
+                    <img src="{{ comment.author.photo.url }}" width="40" height="40" class="rounded-circle mr-3 me-3">
+                    <span class="mr-2">{{ comment.author }}</span>
+                  </div>
+                  <small class="text-muted">{{ comment.updated_at|date:"D H:m" }}</small>
+                </div>
                 <!-- Текст комментария -->
-                <p class="text-justify comment-text mb-0">{{ comment.text }}</p>
+                <div class="mt-3">
+                  <p class="text-justify comment-text mb-0">{{ comment.text }}</p>
+                </div>
               </div>  
             </div>  
             {% endfor %}
