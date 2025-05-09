@@ -15,6 +15,10 @@ def home(request):
     }
     return render(request, 'index.html', context=context)
 
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    return render(request, 'posts/post_detail.html', {'post': post})
+
 
 def create_comment(request, post_id):
     if request.method == 'POST':

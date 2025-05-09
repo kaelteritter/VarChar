@@ -29,8 +29,14 @@ class HomeViewTest(TestCase):
         self.assertEqual(Post.objects.count(), number_of_posts)
         self.assertEqual(first_post.text, 'Пост №1')
 
+
+
+class PostDetailViewTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+    
     def test_comment_can_be_sent(self):
         '''
         Тест: под постами пользователя отправляются и создаются комментарии
         '''
-        
+        ...
