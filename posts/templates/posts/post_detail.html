@@ -3,7 +3,7 @@
 {% block content %}
     {% comment %} Карточка с постом {% endcomment %}
     <div class="mt-4 d-flex justify-content-center">
-      <div class="d-flex card card-small mb-3 post-item" style="width: 360px;">
+      <div class="d-flex card card-small mb-3 post-item" style="width: 540px;">
 
         <!-- Автор поста -->
         <div class="d-flex align-items-center mx-3 mt-3 mb-0">
@@ -37,7 +37,7 @@
             </div>
 
             <!-- Форма добавления комментария -->
-            <form action="{% url "posts:create_comment" post.id %}" method="post">
+            <form action="{% url "posts:create_comment" post.id %}?next={{ request.path }}" method="post">
               {% csrf_token %}
               <div class="d-flex mx-3 mt-3 my-3 justify-content-center align-items-center">
                 <img 

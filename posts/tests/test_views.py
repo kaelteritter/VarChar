@@ -34,6 +34,9 @@ class HomeViewTest(TestCase):
 class PostDetailViewTest(TestCase):
     def setUp(self):
         self.client = Client()
+        self.user = User.objects.create_user(username='testuser')
+        self.post = Post.objects.create(author=self.user, text='test')
+        self.client.force_login(self.user)
     
     def test_comment_can_be_sent(self):
         '''

@@ -21,6 +21,7 @@ def post_detail(request, post_id):
 
 
 def create_comment(request, post_id):
+    next_page = request.POST.get('next_page') or request.GET.get('next', '/')
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -30,6 +31,6 @@ def create_comment(request, post_id):
             comment.save()
         else:
             print(form.errors)
-        return redirect('posts:home')
+        return redirect(next_page)
     else:
-        return redirect('posts:home')
+        return redirect(next_page)
