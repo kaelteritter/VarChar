@@ -12,13 +12,18 @@
 
         <!-- Автор поста -->
         <div class="d-flex align-items-center mx-3 mt-3 mb-0">
-          <img 
-          src="{{ post.author.photo.url }}" 
-          alt="Аватар {{ post.author }}" 
-          class="rounded-circle me-1" 
-          style="width: 50px; height: 50px; object-fit: cover;"
-          >
-          <p class="card-text mb-0"><strong class="text-muted">@{{ post.author }}</strong></p>
+          <div class="me-2">
+            <img 
+            src="{{ post.author.photo.url }}" 
+            alt="Аватар {{ post.author }}" 
+            class="rounded-circle" 
+            style="width: 50px; height: 50px; object-fit: cover;"
+            >
+          </div>
+          <div class="d-flex flex-column">
+            <p class="card-text mb-0"><strong class="text-muted">{{ post.author }}</strong></p>
+            <small class="text-muted">{{ post.updated_at|date:"D H:m" }}</small>
+          </div>
         </div>
 
           <!-- Картинка поста -->
@@ -30,12 +35,12 @@
           <div class="d-flex">
             <div class="card-body">
               <h5 class="card-title">
-                <a href="{% url "posts:post_detail" post.id %}">{{ post.title }}</a>
+                <a href="{% url "posts:post_detail" post.id %}" class="link-underline-opacity-0 link-dark">{{ post.title }}</a>
               </h5>
               <p class="card-text">{{ post.text }}</p>
               <p class="card-text">
                 <small class="text-muted">
-                  <a href="{% url "posts:post_detail" post.id %}">Обновлено: {{ post.updated_at|date:"j E o H:i:s" }}</a>
+                  <a href="{% url "posts:post_detail" post.id %}" class="link-underline-opacity-0 link-secondary">Обновлено: {{ post.updated_at|date:"j E o H:i:s" }}</a>
                 </small>
               </p>
             </div>
