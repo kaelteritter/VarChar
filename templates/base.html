@@ -1,34 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <link href="{% static "css/styles.css" %}" rel="stylesheet">
   {% block title %}
   {% endblock title %}
 </head>
 
 <body>
-  <header>
-    {% include "includes/nav.html" %}
-  </header>
+  <div class="container">
+    {% include "includes/sidebar.html" %}
 
-    <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">VARCHAR</h1>
-        <p class="lead text-muted">У вас есть 271 символ</p>
-        <p>
-          <a href="#" class="btn btn-success my-2">Опубликовать</a>
-          <a href="#" class="btn btn-dark my-2">Крафтить</a>
-        </p>
-      </div>
+    <div class="container-column">
+      <header>
+        {% include "includes/nav.html" %}
+      </header>
+      
+      <main>
+        {% include "includes/tagbar.html" %}
+        <div class="main-container">
+
+        {% block content %}
+        {% endblock content %}
+        </div>
+      </main>
     </div>
-  </section>
-  {% block content %}
-  {% endblock content %}
-
+  </div>
 </body>
 
+<script src="{% static "js/posts.js" %}"></script>
 </html>

@@ -1,27 +1,26 @@
-<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
-
-  <div class="container-fluid">
-    <!-- Логотип -->
-    <div class="navbar-header">
-      <a href="{% url "posts:home" %}" class="navbar-brand">VarChar</a>
+{% load static %}
+<nav class="navigation-bar main-navigation-bar">
+  <div class="navigation main-navigation">
+    <div class="navigation-item">
+      <span class="navigation-elem logo">VarChar</span>
     </div>
-
-    <!-- Правая панель -->
-   <div class="collapse navbar-collapse justify-content-end" id="navbarCenteredExample">
-     <ul class="navbar-nav mb-2 mb-lg-0">
-      {% if user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url "users:logout" %}">Выйти</a>
-      </li>
-      {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url "users:login" %}">Войти</a>
-      </li>
-      {% endif %}
-    </ul>
-   </div>
-
-  </div>
-
-
+    <div class="navigation-item">
+      <form action="." class="search-form" method="get">
+        <input class="search-input" type="search" placeholder="Поиск...">
+        <button class="search-button button" type="submit">
+          <img src="{% static "svg/search.svg" %}" alt="">
+        </button>
+      </form>
+    </div>
+    <div class="navigation-item">
+      <ul class="navigation-menu">
+        <li class="navigation-menu-item">
+          <a href="" class="navigation-link">Прайс</a>
+        </li>
+        <li class="navigation-menu-item">
+          <a href="" class="navigation-link">Войти</a>
+        </li>
+      </ul>
+    </div>
+  </ul>
 </nav>
