@@ -1,0 +1,26 @@
+{% load static %}
+<nav class="account-header">
+  <img class="account-header-avatar" src="{{ user.photo.url }}">
+  <div class="account-header-meta">
+    <span class="account-header-user-username">{{ user.username }}</span>
+    <span class="account-header-user-following">Following: 541</span>
+    <span class="account-header-user-followers">Followers: 391</span>
+    <span class="account-header-user-rank">Rank: Verified</span>
+    <span class="account-header-user-date-joined">Joined: {{ user.date_joined }}</span>
+    <span class="account-header-user-date-posts">Posts: {{ user.posts.count }}</span>
+  </div>
+  <div class="account-header-interactions">
+    <div class="account-header-interactions-item">
+      <button class="account-header-follow button">
+        <span>Написать</span>
+        <img src="{% static "svg/chat-dots.svg" %}" alt="">
+      </button>
+    </div>
+    <div class="account-header-interactions-item">
+      <button class="account-header-follow button">
+        <span>Подписаться</span>
+        <img src="{% static "svg/plus-square-fill.svg" %}" alt="">
+      </button>
+    </div>
+  </div>
+</nav>

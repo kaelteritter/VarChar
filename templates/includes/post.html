@@ -1,7 +1,5 @@
 {% load static %}
 <div class="post-feed">
-  <div class="post-row">
-  <div class="post-column">
 
   <!-- ПОСТ -->
   {% for post in posts %}
@@ -19,6 +17,14 @@
           <p class="post-date-published">{{ post.created_at }}</p>
         </div>
       </div>
+      {% if post.author == request.user %}
+      <button class="button edit-post">
+        <img src="{% static "svg/highlighter.svg" %}" alt="">
+      </button>
+      <button class="button delete-post">
+        <img src="{% static "svg/x-square.svg" %}" alt="">
+      </button>
+      {% endif %}
     </div>
 
     <div class="post-body">
@@ -31,7 +37,7 @@
     <div class="post-footer">
       <ul class="post-stats">
         <li class="post-stats-item">
-          <button onclick="likePost()" id="like" class="like button">
+          <button onclick="likePost({{ post.id }})" id="like-{{ post.id }}" class="like button">
             <img class="post-stats-item-icon" src="{% static "svg/heart.svg" %}" alt="">  
           </button>
           <p class="post-likes">15</p>

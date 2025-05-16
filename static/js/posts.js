@@ -1,5 +1,5 @@
-let likePost = function() {
-    const likeButton = document.getElementById('like');
+let likePost = function(postID) {
+    const likeButton = document.getElementById('like-' + postID);
     likeButton.classList.toggle('active');
 };
 
